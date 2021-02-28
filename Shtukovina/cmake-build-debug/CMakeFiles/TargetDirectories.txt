@@ -1,0 +1,3 @@
+C:/Users/darms/CLionProjects/first_lab/Shtukovina/cmake-build-debug/CMakeFiles/Shtukovina.dir
+C:/Users/darms/CLionProjects/first_lab/Shtukovina/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/darms/CLionProjects/first_lab/Shtukovina/cmake-build-debug/CMakeFiles/rebuild_cache.dir
