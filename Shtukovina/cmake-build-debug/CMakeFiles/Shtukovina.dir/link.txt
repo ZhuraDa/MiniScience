@@ -1,3 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2020.2.1\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\Shtukovina.dir/objects.a
-C:\Mingw\mingw64\bin\ar.exe cr CMakeFiles\Shtukovina.dir/objects.a @CMakeFiles\Shtukovina.dir\objects1.rsp
-C:\Mingw\mingw64\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\Shtukovina.dir/objects.a -Wl,--no-whole-archive  -o Shtukovina.exe -Wl,--out-implib,libShtukovina.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Shtukovina.dir\linklibs.rsp
