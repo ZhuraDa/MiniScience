@@ -1,0 +1,3 @@
+C:/Users/darms/CLionProjects/torus/cmake-build-debug/CMakeFiles/torus.dir
+C:/Users/darms/CLionProjects/torus/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/darms/CLionProjects/torus/cmake-build-debug/CMakeFiles/rebuild_cache.dir

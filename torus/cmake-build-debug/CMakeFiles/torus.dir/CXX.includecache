@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/darms/CLionProjects/torus/main.cpp
+set
+-
+gmsh.h
+C:/Users/darms/CLionProjects/torus/gmsh.h
+
