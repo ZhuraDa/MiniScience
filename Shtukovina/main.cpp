@@ -9,15 +9,14 @@ int main(int argc, char const *argv[])
     gmsh::model::add("Shtukovina");
 
     try {
-        gmsh::merge("C:\\Users\\darms\\CLionProjects\\first_lab\\Shtukovina\\Shuttle.stl");
+        gmsh::merge("C:\\Users\\darms\\CLionProjects\\first_lab\\Shtukovina\\untitled-Shuttle.stl");
     } catch(...) {
         gmsh::logger::write("Could not load STL mesh: bye!");
         gmsh::finalize();
         return 0;
     }
 
-
-    double angle = 2;
+    double angle = 0.002;
     bool forceParametrizablePatches = false;
     bool includeBoundary = true;
     double curveAngle = 180;

@@ -5,7 +5,7 @@
 int main(int argc, char **argv) {
     gmsh::initialize();
     gmsh::model::add("torus");
-    double lc = 1e-1;
+    double lc = 0.1;
     double R_tor = 4;
     double r_tor = 2;
     double r_obr = 0.8;
