@@ -1,48 +1,58 @@
-from fenics import *
+from dolfin import *
 
 # Create mesh and define function space
-mesh = UnitSquareMesh(8, 8)
-V = FunctionSpace(mesh, 'P', 1)
+mesh = RectangleMesh(Point(-1.0, -1.0), Point(1.0, 1.0), 32, 32)
+V = FunctionSpace(mesh, 'Lagrange', 1)
+
+def boundary_D1(x, on_boundary):
+    return on_boundary and (x[0] < -1.0 + DOLFIN_EPS)
+
+def boundary_D2(x, on_boundary):
+    return on_boundary and (x[0] > 1.0 - DOLFIN_EPS)
+
+def boundary_Z(x, on_boundary):
+    return on_boundary and (x[1] < -1.0 + DOLFIN_EPS or x[1] > 1.0 - DOLFIN_EPS)
 
 # Define boundary condition
-u_D = Expression('1 + x[0]*x[0] + 2*x[1]*x[1]', degree=2)
-
-def boundary(x, on_boundary):
-    return on_boundary
-
-bc = DirichletBC(V, u_D, boundary)
-
+u_l = Constant(-1.0)
+u_r = Constant(1.0)
+u_z = Expression('x[0]', degree=2)
+bc1 = DirichletBC(V, u_l, boundary_D1)
+bc2 = DirichletBC(V, u_r, boundary_D2)
+bc3 = DirichletBC(V, u_z, boundary_Z)
 # Define variational problem
-u = TrialFunction(V)
+Phi = Function(V)
 v = TestFunction(V)
-f = Constant(-6.0)
-a = dot(grad(u), grad(v))*dx
-L = f*v*dx
-
+Lambda = Expression("(100 * exp(-25 * (x[0]*x[0] + x[1]*x[1])) + 1)", degree=2)
+a = inner(grad(Phi), grad(v))*Lambda*dx
 # Compute solution
-u = Function(V)
-solve(a == L, u, bc)
+solve(a == 0, Phi, [bc1, bc2, bc3])
 
-# Plot solution and mesh
-plot(u)
-plot(mesh)
-
+W = VectorFunctionSpace(mesh, "Lagrange", 1)
 # Save solution to file in VTK format
-vtkfile = File('poisson/solution.pvd')
-vtkfile << u
+vtkfile = File('elecricity/Phi.pvd')
+vtkfile << Phi
 
-# Compute error in L2 norm
-error_L2 = errornorm(u_D, u, 'L2')
+E = project(-grad(Phi), W)
+file = File("elecricity/field.pvd")
+file << E
+lambdaa = project(Lambda, V)
+file = File("elecricity/lambda.pvd")
+file << lambdaa
 
-# Compute maximum error at vertices
-vertex_values_u_D = u_D.compute_vertex_values(mesh)
-vertex_values_u = u.compute_vertex_values(mesh)
-import numpy as np
-error_max = np.max(np.abs(vertex_values_u_D - vertex_values_u))
+j = project(-Lambda*grad(Phi), W)
+file = File("elecricity/flow.pvd")
+file << j
 
-# Print errors
-print('error_L2  =', error_L2)
-print('error_max =', error_max)
+Power = project(inner(j, E), V)
+file = File("elecricity/power.pvd")
+file << Power
 
-# Hold plot
-interactive()
+Charge = project(div(E)/(4*3.14), V)
+file = File("elecricity/charge.pvd")
+file << Charge
+
+phi_const = Expression('x[0]', degree=2)
+delta_phi = project(Phi-phi_const, V)
+file = File("elecricity/delta_phi.pvd")
+file << delta_phi
